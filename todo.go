@@ -123,3 +123,17 @@ func (t Todo) Load(filename string) error {
 	// Return nil to indicate that the operation was successful.
 	return nil
 }
+
+
+func (t Todo) store(filename string) error {
+    // Marshal the Todo list 't' into JSON format.
+    data, err := json.Marshal(t)
+    if err != nil {
+        // If there was an error during marshaling, return the error.
+        return err
+    }
+
+    // Write the JSON data to the file specified by 'filename'.
+    // The file is created with read-write permissions for the owner only (0644).
+    return ioutil.WriteFile(filename, data, 0644)
+}
