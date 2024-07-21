@@ -1,7 +1,11 @@
 package todo
 
 import (
+	"encoding/json"
+	"errors"
 	"fmt"
+	"io/ioutil"
+	"os"
 	"time"
 )
 
@@ -13,7 +17,6 @@ type item struct {
 }
 
 type Todo []item
-
 
 // Add adds a new task to the Todo list.
 //
@@ -37,7 +40,7 @@ func (t *Todo) Add(task string) {
 
 // Complete marks a task as completed by setting the 'Done' field to true and the 'CompletedAt' field to the current time.
 //
-// It takes an integer parameter 'index' which represents the index of the task to be completed. 
+// It takes an integer parameter 'index' which represents the index of the task to be completed.
 // The index is zero-based, meaning the first task is at index 0.
 //
 // It returns an error if the index is invalid (less than or equal to 0 or greater than the length of the Todo list).
@@ -79,6 +82,43 @@ func (t *Todo) Delete(index int) error {
 	// new slice that contains all elements before the index and all elements
 	// after the index.
 	*t = append(ls[:index-1], ls[index:]...)
+
+	// Return nil to indicate that the operation was successful.
+	return nil
+}
+
+// Load loads a Todo list from a JSON file.
+//
+// It takes a string parameter 'filename' which represents the name of the file
+// to be loaded.
+//
+// It returns an error if there was a problem reading the file or unmarshaling
+// the JSON data.
+func (t Todo) Load(filename string) error {
+	// Read the contents of the file.
+	file, err := ioutil.ReadFile(filename)
+	if err != nil {
+		// If the error is related to the file not existing, return nil to
+		// indicate that the operation was successful.
+		if errors.Is(err, os.ErrNotExist) {
+			return nil
+		}
+		// If the error is not related to the file not existing, return the
+		// error.
+		return err
+	}
+
+	// If the file is empty, return an error.
+	if len(file) == 0 {
+		return err
+	}
+
+	// Unmarshal the JSON data into the Todo list.
+	err = json.Unmarshal(file, t)
+	if err != nil {
+		// If there was an error unmarshaling the JSON data, return the error.
+		return err
+	}
 
 	// Return nil to indicate that the operation was successful.
 	return nil
