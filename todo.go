@@ -124,7 +124,7 @@ func (t *Todos) Load(filename string) error {
 	return nil
 }
 
-func (t Todos) Store(filename string) error {
+func (t *Todos) Store(filename string) error {
 	// Marshal the Todos list 't' into JSON format.
 	data, err := json.Marshal(t)
 	if err != nil {
