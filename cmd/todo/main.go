@@ -15,6 +15,8 @@ const (
 func main() {
 	add := flag.Bool("add", false, "add a new todo")
 	complete := flag.Int("complete", 0, "complete a todo")
+	del := flag.Int("del", 0, "delete a todo")
+
 
 
 	flag.Parse()
@@ -36,6 +38,16 @@ func main() {
 
 	case *complete > 0:
 		if err := todos.Complete(*complete); err != nil {
+			fmt.Fprintln(os.Stderr, err.Error())
+			os.Exit(1)
+		}
+		err := todos.Store(todoFile)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err.Error())
+			os.Exit(1)
+		}
+	case *del > 0:
+		if err := todos.Delete(*del); err != nil {
 			fmt.Fprintln(os.Stderr, err.Error())
 			os.Exit(1)
 		}
