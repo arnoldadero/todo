@@ -94,7 +94,7 @@ func (t *Todos) Delete(index int) error {
 //
 // It returns an error if there was a problem reading the file or unmarshaling
 // the JSON data.
-func (t Todos) Load(filename string) error {
+func (t *Todos) Load(filename string) error {
 	// Read the contents of the file.
 	file, err := ioutil.ReadFile(filename)
 	if err != nil {
