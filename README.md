@@ -13,7 +13,7 @@ A beautiful, personalized command-line todo application written in Go. Manage yo
 
 - **Beautiful CLI Interface**
   - Colorful output with intuitive visual cues
-  - Clear task status indicators (/)
+  - Clear task status indicators
   - Task creation dates
   - Summary statistics
 
@@ -31,103 +31,66 @@ A beautiful, personalized command-line todo application written in Go. Manage yo
   - Encouraging messages based on progress
   - Automatic task list updates after actions
 
-## Demo
+## Installation
 
-Here's how the app looks in action:
-
-### First Time Usage
 ```bash
-$ todo
+# Clone the repository
+git clone https://github.com/arnoldadero/todo.git
+cd todo
+
+# Build the application
+go build ./cmd/todo
+
+# The executable will be created in the current directory
+# Always run the commands with ./todo
+```
+
+## Usage
+
+```bash
+# Add a new todo
+./todo -add "Your task here"
+
+# List all todos
+./todo -list
+
+# Complete a todo (replace N with the todo number)
+./todo -complete N
+
+# Delete a todo (replace N with the todo number)
+./todo -del N
+```
+
+### Example Session
+```bash
+$ ./todo
 Welcome to Todo App!
 What's your name? Alice
 
 Nice to meet you, Alice! 
 
-Alice's Todo List
-Your Personal Command Line Task Manager
-────────────────────────────────────────
-```
-
-### Adding and Listing Todos
-```bash
-$ todo -add "Buy groceries"
+$ ./todo -add "Buy groceries"
 Added todo: Buy groceries
 
+$ ./todo -list
 Alice's Todos:
 ────────────────────────────────────────
 [1] Buy groceries (added Nov 23)
 ────────────────────────────────────────
 Total: 1  Completed: 0  Pending: 1
-```
 
-### Completing Tasks with Motivation
-```bash
-$ todo -complete 1
+$ ./todo -complete 1
 Completed todo #1
-
-Alice's Todos:
-────────────────────────────────────────
-[1] Buy groceries (added Nov 23)
-────────────────────────────────────────
-Total: 1  Completed: 1  Pending: 0
-
 Amazing job Alice! All tasks completed! 
 ```
 
-### Multiple Tasks Progress
-```bash
-$ todo -list
-Alice's Todos:
-────────────────────────────────────────
-[1] Buy groceries (added Nov 23)
-[2] Call mom (added Nov 23)
-[3] Write documentation (added Nov 23)
-────────────────────────────────────────
-Total: 3  Completed: 1  Pending: 2
-
-Keep going Alice! You're making great progress!
-```
-
-### Help Screen
-```bash
-Alice's Todo List
-Your Personal Command Line Task Manager
-────────────────────────────────────────
-
-Usage:
-  todo [command] [arguments]
-
-Available Commands:
-  -list                  Show all your todos
-  -add [todo text]       Create a new todo
-  -complete [number]     Mark a todo as done
-  -del [number]          Remove a todo
-
-Examples:
-  todo -add "Buy groceries"
-  todo -list
-  todo -complete 1
-  todo -del 2
-```
-
-## Installation
-
-1. Make sure you have Go 1.19 or later installed
-2. Clone this repository:
-   ```bash
-   git clone https://github.com/arnoldadero/todo.git
-   cd todo
-   ```
-3. Build the application:
-   ```bash
-   go build ./cmd/todo
-   ```
-
 ## Configuration
 
-The app stores your preferences in two files:
+The app stores data in two files:
 - `.todo_user`: Stores your name for personalized interactions
 - `.todos.json`: Stores your todo items
+
+These files are created automatically in the directory where you run the todo command.
 
 You can customize the storage location by setting the `TODO_FILE` environment variable:
 ```bash
